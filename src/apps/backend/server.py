@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from flask.typing import ResponseReturnValue
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
+from modules.routes.comment_routes import comment_bp
 
 from bin.blueprints import api_blueprint, img_assets_blueprint, react_blueprint
 from modules.account.rest_api.account_rest_api_server import AccountRestApiServer
@@ -68,3 +69,7 @@ app.register_blueprint(react_blueprint)
 @app.errorhandler(AppError)
 def handle_error(exc: AppError) -> ResponseReturnValue:
     return jsonify({"message": exc.message, "code": exc.code}), exc.http_code or 500
+
+def register_routes(app):
+    # other blueprints
+    app.register_blueprint(comment_bp)
